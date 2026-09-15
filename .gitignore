@@ -159,6 +159,8 @@ venv.bak/
 bin/
 include/
 pyvenv.cfg
+migrations/
+settings.py
 
 # Spyder project settings
 .spyderproject
