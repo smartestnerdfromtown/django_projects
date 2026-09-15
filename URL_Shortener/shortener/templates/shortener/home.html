@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,8 +10,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-  <!-- Custom Stylesheet (in the same directory) -->
-  <link rel="stylesheet" href="styles.css">
+
+  <!-- CUSTOM STYLESHEET WHICH IS CONNECTED VIA DJANGO JINJA -->
+  <link rel="stylesheet" href="{% static 'shortener/styles.css' %}">
 </head>
 <body>
 
@@ -33,7 +35,7 @@
       <!-- Form Section -->
       <!-- (Replace method/action & csrf token as needed for Django/Jinja backend) -->
       <form method="POST" action="">
-        <!-- {% csrf_token %} -->
+        {% csrf_token %}
         <div class="custom-input-group d-flex align-items-center mb-3">
           <span class="ps-3 text-secondary">
             <i class="bi bi-link-45deg fs-4"></i>
@@ -52,25 +54,49 @@
       </form>
 
       <!-- Result Section -->
-      {% comment %} <!-- (Shown when shortened URL is ready; plug in Jinja condition e.g. {% if final_url %}) --> {% endcomment %}
       <div class="result-box" id="resultBox">
         <div class="d-flex align-items-center justify-content-between mb-2">
           <span class="result-label">
             <i class="bi bi-check-circle-fill me-1"></i> Your Shortened URL
           </span>
         </div>
-        
+
+
+        <!-- 
+        If the form was submitted (POST), final_url exists, 
+        so Django renders the result box and injects your new link directly into the anchor tag. 
+        -->
+        {% if final_url %}
         <div class="result-url-wrapper">
-          {% comment %} <!-- Final URL placeholder (Replace href and text with Jinja variable like {{ final_url }}) --> {% endcomment %}
-          <a href="#" target="_blank" class="result-url" id="shortUrl">
-            https://short.url/xyz123
+          <a href="{{ final_url }}" target="_blank" class="result-url" id="shortUrl">
+            {{ final_url }}
           </a>
-          
           <button type="button" class="btn btn-copy" onclick="copyToClipboard()">
             <i class="bi bi-clipboard me-1" id="copyIcon"></i>
             <span id="copyText">Copy</span>
           </button>
         </div>
+
+
+        <!-- 
+        If the page was just opened (GET), final_url doesn't exist, so the result box stays hidden.
+        -->
+        {% else %}
+        <div class="result-url-wrapper">
+          <a href="#" target="_blank" class="result-url" id="shortUrl">
+            https://short.url/xyz123
+          </a>
+          <button type="button" class="btn btn-copy" onclick="copyToClipboard()">
+            <i class="bi bi-clipboard me-1" id="copyIcon"></i>
+            <span id="copyText">Copy</span>
+          </button>
+        </div>
+
+        {% endif %}
+          
+
+
+
       </div>
 
     </div>
