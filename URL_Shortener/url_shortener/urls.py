@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from shortener import views as shortener_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path(
+        route="",
+        view=shortener_views.home,
+        name="shortener-home",
+    ),
 ]

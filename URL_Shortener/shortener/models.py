@@ -13,4 +13,5 @@ class Urls(models.Model):
             )
         return return_text
 
-
+class AllUrls(models.Model):
+    short_url = models.URLField(max_length=200)

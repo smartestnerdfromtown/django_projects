@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Shortener</title>
+  
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Custom Stylesheet (in the same directory) -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Background Glow Effects -->
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <main class="container d-flex justify-content-center align-items-center">
+    <div class="shortener-card">
+      
+      <!-- Header / Title -->
+      <div class="text-center mb-4">
+        <div class="d-inline-flex align-items-center justify-content-center p-3 rounded-circle bg-indigo-subtle mb-3" style="background: rgba(99, 102, 241, 0.15);">
+          <i class="bi bi-link-45deg fs-1" style="color: #818cf8;"></i>
+        </div>
+        <h1 class="display-6 title-gradient mb-2">Shorten Your Link</h1>
+        <p class="subtitle">Paste your long URL below to create a quick, shareable short link.</p>
+      </div>
+
+      <!-- Form Section -->
+      <!-- (Replace method/action & csrf token as needed for Django/Jinja backend) -->
+      <form method="POST" action="">
+        <!-- {% csrf_token %} -->
+        <div class="custom-input-group d-flex align-items-center mb-3">
+          <span class="ps-3 text-secondary">
+            <i class="bi bi-link-45deg fs-4"></i>
+          </span>
+          <input 
+            type="url" 
+            name="url" 
+            class="form-control custom-input" 
+            placeholder="Paste your long link here (e.g. https://example.com/long-page)..." 
+            required
+            autocomplete="off">
+          <button type="submit" class="btn btn-shorten">
+            <i class="bi bi-magic me-2"></i>shorten it
+          </button>
+        </div>
+      </form>
+
+      <!-- Result Section -->
+      {% comment %} <!-- (Shown when shortened URL is ready; plug in Jinja condition e.g. {% if final_url %}) --> {% endcomment %}
+      <div class="result-box" id="resultBox">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="result-label">
+            <i class="bi bi-check-circle-fill me-1"></i> Your Shortened URL
+          </span>
+        </div>
+        
+        <div class="result-url-wrapper">
+          {% comment %} <!-- Final URL placeholder (Replace href and text with Jinja variable like {{ final_url }}) --> {% endcomment %}
+          <a href="#" target="_blank" class="result-url" id="shortUrl">
+            https://short.url/xyz123
+          </a>
+          
+          <button type="button" class="btn btn-copy" onclick="copyToClipboard()">
+            <i class="bi bi-clipboard me-1" id="copyIcon"></i>
+            <span id="copyText">Copy</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Bootstrap 5.3 Bundle JS -->
+  <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Helper script for copy button interaction -->
+  <script>
+    function copyToClipboard() {
+      const urlText = document.getElementById('shortUrl').innerText.trim();
+      navigator.clipboard.writeText(urlText).then(() => {
+        const copyText = document.getElementById('copyText');
+        const copyIcon = document.getElementById('copyIcon');
+        
+        copyText.innerText = 'Copied!';
+        copyIcon.className = 'bi bi-check2 me-1';
+        
+        setTimeout(() => {
+          copyText.innerText = 'Copy';
+          copyIcon.className = 'bi bi-clipboard me-1';
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
