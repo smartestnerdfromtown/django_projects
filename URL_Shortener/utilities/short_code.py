@@ -1,8 +1,6 @@
 from string import ascii_lowercase, ascii_uppercase
 import random
 
-print(ascii_lowercase)
-
 def generate_body(length: int) -> str:
     """Function to generate the body (`length` number of letter) consisting
     of random number of both lowercase and uppercase letters.
@@ -28,5 +26,8 @@ def generate_body(length: int) -> str:
     
     return "".join(body)
 
-print(generate_body(8))
+
+def build_short_url(body: str, domain: str, secure: bool) -> str:
+    heading = "https://" if secure else "http://"
+    return f"{heading}{domain}.me/go/{body}"
     
