@@ -12,6 +12,6 @@ class Urls(models.Model):
             was created at {self.created_at} and has been clicked {self.total_clicks} times."
             )
         return return_text
-
+    
 class AllUrls(models.Model):
     short_url = models.URLField(max_length=200)
