@@ -1,6 +1,6 @@
 import logging
 from django.shortcuts import render
-from .models import Urls, AllUrls
+from .models import Urls
 from .utilities.short_code import (
     generate_body,
     build_short_url,
@@ -22,10 +22,10 @@ def home(request):
         short_url = build_short_url(body)
 
         url, creation_status = Urls.objects.get_or_create(
-            original_destination=user_url,
-            generated_short_url=short_url,
+            user_ipv4=USER_IP,
+            user_url=user_url,
+            short_url=short_url,
         )
-        unique_url, creation_status = AllUrls.objects.get_or_create(short_url=short_url)
 
         return render(request, "shortener/home.html", {"final_url": short_url})
 
